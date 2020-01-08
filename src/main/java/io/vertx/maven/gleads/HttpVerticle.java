@@ -3,6 +3,7 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.Json;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
@@ -43,10 +44,25 @@ public class HttpVerticle extends AbstractVerticle {
 
   private void registerUser(RoutingContext routingContext) {
 
-    User retVal = new User("Jacob", "jake@jake.jake", "jakejake", null, null,null);
+    JsonObject message = new JsonObject()
+      .put("action","register-user")
+      .put("user",routingContext.getBodyAsJson().getJsonObject("user"));
 
-    routingContext.response().setStatusCode(201)
-      .putHeader("Content-Type", "application/json")
-      .end(Json.encodePrettily(retVal.toGleadsJson()));
+    vertx.<JsonObject>eventBus().send("persistence-address",message, ar->{
+      if(ar.succeeded()){
+        User returnedUser= Json.decodeValue(ar.result().body().toString(), User.class);
+        routingContext.response()
+          .setStatusCode(201)
+          .putHeader("Content-Type","application/json; charset=utf-8")
+          .end(Json.encodePrettily(returnedUser.toGleadsJson()));
+      }else{
+        routingContext.response()
+          .setStatusCode(501)
+          .putHeader("Content-Type","application/json; charset=utf-8")
+          .end(Json.encodePrettily(ar.cause().getMessage()));
+      }
+    });
+
+
   }
 }

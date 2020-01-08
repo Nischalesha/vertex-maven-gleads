@@ -22,7 +22,7 @@ public class RegisterUserTest {
     vertx = Vertx.vertx();
     webClient = WebClient.create(vertx);
 
-    vertx.deployVerticle(new HttpVerticle());
+    vertx.deployVerticle(new MainVerticle());
   }
 
   @After
@@ -55,7 +55,7 @@ public class RegisterUserTest {
 
           JsonObject returnedUser = returnedJson.getJsonObject("user");
           tc.assertEquals("Jacob", returnedUser.getString("username"), "Username should be 'User2");
-          tc.assertEquals("jake@jake.jake", returnedUser.getString("email"), "Email should be 'user2@user2.user2");
+          tc.assertEquals("jake2@jake.jake", returnedUser.getString("email"), "Email should be 'user2@user2.user2");
           tc.assertNull(returnedUser.getString("bio"), "Bio should be null/empty");
           tc.assertNull(returnedUser.getString("image"), "image should be null/empty");
           tc.assertNull(returnedUser.getString("token", "Token should not be null/empty"));
