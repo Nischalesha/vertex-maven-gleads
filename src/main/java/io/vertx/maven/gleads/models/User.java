@@ -15,6 +15,10 @@ public class User {
 
   String image;
 
+  String salt;
+
+  String _id;
+
   public JsonObject toGleadsJson(){
 
     JsonObject retVal = new JsonObject();
@@ -39,6 +43,19 @@ public class User {
     this.token = token;
     this.bio = bio;
     this.image = image;
+  }
+
+  public User(JsonObject jsonObject) {
+
+    if (jsonObject.containsKey("_id")) this._id = jsonObject.getString("_id");
+    this.username = jsonObject.getString("username");
+    this.email = jsonObject.getString("email");
+    this.password = jsonObject.getString("password");
+    if (jsonObject.containsKey("token")) this.token = jsonObject.getString("token");
+    if (jsonObject.containsKey("image")) this.image = jsonObject.getString("image");
+    if (jsonObject.containsKey("bio")) this.bio = jsonObject.getString("bio");
+    if (jsonObject.containsKey("salt")) this.salt = jsonObject.getString("salt");
+
   }
 
   public String getUsername() {
@@ -87,5 +104,46 @@ public class User {
 
   public void setImage(String image) {
     this.image = image;
+  }
+
+  public String get_id() {
+    return _id;
+  }
+
+  public void set_id(String _id) {
+    this._id = _id;
+  }
+
+
+  public String getSalt() {
+    return salt;
+  }
+
+  public void setSalt(String salt) {
+    this.salt = salt;
+  }
+
+  public JsonObject toJson() {
+    JsonObject retVal = new JsonObject()
+      .put("username", username)
+      .put("bio", bio)
+      .put("image", image)
+      .put("email", email);
+
+       return retVal;
+  }
+  public JsonObject toMongoJson() {
+    JsonObject retVal = new JsonObject();
+    if (this._id != null) {
+      retVal.put("_id", this._id);
+    }
+    retVal.put("username", username)
+      .put("email", email)
+      .put("token", token)
+      .put("bio", bio)
+      .put("password", this.password)
+      .put("salt", this.salt);
+
+    return retVal;
   }
 }

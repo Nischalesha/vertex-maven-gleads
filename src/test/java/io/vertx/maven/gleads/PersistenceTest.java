@@ -36,12 +36,12 @@ public class PersistenceTest {
 
     JsonObject message=new JsonObject()
       .put("action", "register-user")
-      .put("user", "userToRegister");
+      .put("user", userToRegister);
 
     vertx.<JsonObject>eventBus().send("persistence-address",message,ar->{
       if (ar.succeeded()) {
         testContext.assertNotNull(ar.result().body());
-        User returnedUser= Json.decodeValue(ar.result().body().toString(),User.class);
+        User returnedUser= Json.decodeValue(new JsonObject(ar.result().body().toString()).getJsonObject("details").toString(),User.class);
         testContext.assertEquals("jake2@jake.jake", returnedUser.getEmail());
         testContext.assertEquals("Jacob", returnedUser.getUsername());
         async.complete();

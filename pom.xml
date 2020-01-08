@@ -54,6 +54,19 @@
       <artifactId>vertx-web-client</artifactId>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/io.vertx/vertx-mongo-client -->
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-mongo-client</artifactId>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/io.vertx/vertx-auth-mongo -->
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-auth-mongo</artifactId>
+    </dependency>
+
+
   </dependencies>
 
   <build>
