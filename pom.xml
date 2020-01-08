@@ -42,6 +42,18 @@
       <artifactId>vertx-unit</artifactId>
       <scope>test</scope>
     </dependency>
+
+    <!-- https://mvnrepository.com/artifact/io.vertx/vertx-web -->
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-web</artifactId>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/io.vertx/vertx-web-client -->
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-web-client</artifactId>
+    </dependency>
+
   </dependencies>
 
   <build>
