@@ -16,6 +16,7 @@ public class HttpVerticle extends AbstractVerticle {
   @Override
   public void start(Future<Void> startFuture) {
 
+
     // create a apiRouter to handle the API
     Router baseRouter = Router.router(vertx);
     Router apiRouter = Router.router(vertx);
@@ -50,7 +51,7 @@ public class HttpVerticle extends AbstractVerticle {
 
     vertx.<JsonObject>eventBus().send("persistence-address",message, ar->{
       if(ar.succeeded()){
-        User returnedUser= Json.decodeValue(ar.result().body().toString(), User.class);
+        User returnedUser= Json.decodeValue(new JsonObject(ar.result().body().toString()).getJsonObject("details").toString(),User.class);
         routingContext.response()
           .setStatusCode(201)
           .putHeader("Content-Type","application/json; charset=utf-8")
